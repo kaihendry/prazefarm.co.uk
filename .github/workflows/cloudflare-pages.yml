@@ -27,7 +27,8 @@ jobs:
             - name: Install dependencies
               run: |
                   sudo apt-get update
-                  sudo apt-get install -y m4
+                  sudo apt-get install -y m4 fd-find
+                  sudo ln -s $(which fdfind) /usr/local/bin/fd
                   go install github.com/kaihendry/toc/cmd/toc@latest
 
             - name: Install goredo
