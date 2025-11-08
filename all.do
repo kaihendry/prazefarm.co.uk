@@ -1,4 +1,6 @@
-find -name "*.html.in" | while read src
+fd '\.html\.in$' | while read src
 do
-	echo public/${src%.*}
+	target="${src#./}"
+	target="public/${target%.in}"
+	echo "$target"
 done | xargs redo-ifchange

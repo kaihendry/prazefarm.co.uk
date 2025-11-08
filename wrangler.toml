@@ -1,0 +1,8 @@
+name = "prazefarm"
+compatibility_date = "2024-11-08"
+pages_build_output_dir = "public"
+
+[build]
+command = "redo all"
+cwd = ""
+watch_dirs = ["*.html.in", "cottage/*.html.in", "curtains/*.html.in", "enquiry/*.html.in", "*.inc", "*.do"]
