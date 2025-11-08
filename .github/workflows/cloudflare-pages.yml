@@ -43,3 +43,10 @@ jobs:
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
                   command: pages deploy public --project-name=prazefarm
+
+            - name: Smoke test
+              run: |
+                  echo "Waiting for deployment to propagate..."
+                  sleep 10
+                  curl -f -s -o /dev/null -w "%{http_code}" https://prazefarm.pages.dev/ | grep -q "200" || exit 1
+                  echo "✅ Smoke test passed - site is live!"
