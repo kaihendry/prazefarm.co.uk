@@ -44,9 +44,9 @@ jobs:
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
                   command: pages deploy public --project-name=prazefarm
 
-            - name: Smoke test
-              run: |
-                  echo "Waiting for deployment to propagate..."
-                  sleep 10
-                  curl -f -s -o /dev/null -w "%{http_code}" https://prazefarm.pages.dev/ | grep -q "200" || exit 1
-                  echo "✅ Smoke test passed - site is live!"
+            - name: Check for broken links
+              uses: ruzickap/action-my-broken-link-checker@v2
+              with:
+                  url: https://prazefarm.pages.dev/
+                  pages_timeout: 30
+                  cmd_params: '--buffer-size=8192 --max-connections=10 --color=always --skip-tls-verification --timeout=20'
