@@ -2,6 +2,6 @@ This project uses `redo` to build and deploy. We use the goredo implementation. 
 
 Prefer `fd` over `find`.
 
-The DNS of this Website, prazefarm.co.uk is hosted with Cloudflare. Zone id b6a22ea22652584b4dc88c38a3e9ee93
+The DNS of this Website, prazefarm.co.uk is hosted with Cloudflare.
 
 BEFORE ANYTHING ELSE: run 'bd onboard' and follow the instructions

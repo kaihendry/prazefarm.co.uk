@@ -1,52 +1,50 @@
 name: Deploy to Cloudflare Pages
 
 on:
-    push:
-        branches:
-            - main
-    workflow_dispatch:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
-    contents: read
-    deployments: write
+  contents: read
+  deployments: write
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
-        name: Build and Deploy to Cloudflare Pages
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy to Cloudflare Pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
 
-            - name: Setup Go
-              uses: actions/setup-go@v5
-              with:
-                  go-version: "stable"
-                  cache: true
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+          cache: true
 
-            - name: Install dependencies
-              run: |
-                  sudo apt-get update
-                  sudo apt-get install -y m4 fd-find
-                  sudo ln -s $(which fdfind) /usr/local/bin/fd
-                  go install github.com/kaihendry/toc/cmd/toc@latest
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y m4 fd-find
+          sudo ln -s $(which fdfind) /usr/local/bin/fd
+          go install github.com/kaihendry/toc/cmd/toc@latest
 
-            - name: Install goredo
-              uses: kaihendry/actions/goredo@main
+      - name: Install goredo
+        uses: kaihendry/actions/goredo@main
 
-            - name: Build site
-              run: redo all
+      - name: Build site
+        run: redo all
 
-            - name: Deploy to Cloudflare Pages
-              uses: cloudflare/wrangler-action@v3
-              with:
-                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                  command: pages deploy public --project-name=prazefarm
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy public --project-name=prazefarm
 
-            - name: Check for broken links
-              uses: ruzickap/action-my-broken-link-checker@v2
-              with:
-                  url: https://prazefarm.pages.dev/
-                  pages_timeout: 30
-                  cmd_params: '--buffer-size=8192 --max-connections=10 --color=always --skip-tls-verification --timeout=20'
+      - name: Check for broken links
+        uses: ruzickap/action-my-broken-link-checker@v2
+        with:
+          url: https://prazefarm.pages.dev/
