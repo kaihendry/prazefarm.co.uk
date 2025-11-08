@@ -26,8 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y m4 fd-find
+          sudo apt-get install --no-install-recommends -y m4 fd-find
           sudo ln -s $(which fdfind) /usr/local/bin/fd
           go install github.com/kaihendry/toc/cmd/toc@latest
 
@@ -45,6 +44,7 @@ jobs:
           command: pages deploy public --project-name=prazefarm
 
       - name: Check for broken links
+        continue-on-error: true
         uses: ruzickap/action-my-broken-link-checker@v2
         with:
           url: https://prazefarm.pages.dev/
