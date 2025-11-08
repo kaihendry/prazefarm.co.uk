@@ -41,7 +41,7 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: 212aab16e8e2f88974a456b8097b2726
           command: pages deploy public --project-name=prazefarm
 
       - name: Check for broken links
